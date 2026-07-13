@@ -161,6 +161,11 @@
                         <option value="llama3.2:3b">llama3.2:3b (Fast Conversational)</option>
                     </select>
                 </div>
+                <!-- Test Voice Button -->
+                <button onclick="testVoiceNow()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 transition-all border border-emerald-500/40 font-bold active:scale-95" title="Click to test speech synthesis out loud">
+                    <span class="material-symbols-outlined text-[18px]">campaign</span>
+                    <span>Test Voice</span>
+                </button>
                 <!-- Voice Read Toggle -->
                 <button onclick="toggleVoiceOutput()" id="voice-toggle-btn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition-all font-bold" title="Toggle Spoken Voice Output">
                     <span id="voice-icon" class="material-symbols-outlined text-[18px]">volume_up</span>
@@ -353,7 +358,7 @@
 
 <script>
     let currentConversationId = null;
-    let voiceOutputEnabled = false;
+    let voiceOutputEnabled = true;
 
     // View Switcher
     function switchView(viewName) {
@@ -640,6 +645,7 @@
             icon.innerText = "volume_up";
             text.innerText = "Voice Spoken";
             btn.className = "flex items-center gap-1 px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition-all font-bold";
+            speakText("Voice enabled.");
         } else {
             icon.innerText = "volume_off";
             text.innerText = "Voice Muted";
@@ -648,25 +654,46 @@
         }
     }
 
+    function testVoiceNow() {
+        if (!('speechSynthesis' in window)) return alert("Speech synthesis not supported in this browser.");
+        speakText("Hello Atrik. I am JARVIS. My voice engine is fully operational right now.");
+    }
+
     function speakText(text) {
-        if (!('speechSynthesis' in window)) return;
-        window.speechSynthesis.cancel();
+        if (!('speechSynthesis' in window) || !voiceOutputEnabled) return;
         // Strip markdown, asterisks, bullet points, and code formatting for pure clean natural speech
         const cleanText = text.replace(/<[^>]*>?/gm, '')
                               .replace(/[*#`~_]/g, '')
                               .replace(/\s+/g, ' ').trim();
         if (!cleanText) return;
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.rate = 1.06;
-        utterance.pitch = 0.95;
-        if (continuousVoiceMode) {
-            utterance.onend = () => {
-                setTimeout(() => {
-                    if (continuousVoiceMode) startVoiceRecognition();
-                }, 500);
-            };
-        }
-        window.speechSynthesis.speak(utterance);
+
+        window.speechSynthesis.cancel();
+        setTimeout(() => {
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'en-US';
+            utterance.rate = 1.05;
+            utterance.pitch = 0.95;
+            
+            // Try to pick a natural or high-quality US/UK English voice
+            const voices = window.speechSynthesis.getVoices();
+            if (voices && voices.length > 0) {
+                const bestVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Natural') || v.name.includes('David') || v.name.includes('Mark') || v.name.includes('Google') || v.name.includes('US')))
+                               || voices.find(v => v.lang.includes('en'));
+                if (bestVoice) utterance.voice = bestVoice;
+            }
+
+            if (continuousVoiceMode) {
+                utterance.onend = () => {
+                    setTimeout(() => {
+                        if (continuousVoiceMode) startVoiceRecognition();
+                    }, 500);
+                };
+            }
+            window.speechSynthesis.speak(utterance);
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+        }, 50);
     }
 
     function startVoiceRecognition() {
@@ -700,6 +727,14 @@
         loadConversations();
         checkStatus();
         setInterval(checkStatus, 6000);
+        
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+            window.speechSynthesis.getVoices();
+            if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+        }
     });
 </script>
 </body>
