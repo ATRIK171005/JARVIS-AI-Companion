@@ -1,357 +1,523 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>JARVIS AI Companion — Personal Operations Studio</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JARVIS Strategic Companion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#36333d",
+                    "on-tertiary": "#1000a9",
+                    "tertiary": "#c0c1ff",
+                    "surface-tint": "#ddb7ff",
+                    "on-primary-fixed": "#2c0051",
+                    "inverse-surface": "#e6e0ee",
+                    "surface-container-highest": "#36333d",
+                    "surface-container": "#211e28",
+                    "surface-container-high": "#2b2932",
+                    "on-tertiary-fixed-variant": "#2f2ebe",
+                    "on-surface-variant": "#cfc2d6",
+                    "on-secondary": "#640039",
+                    "outline-variant": "#4d4354",
+                    "on-tertiary-fixed": "#07006c",
+                    "secondary-container": "#aa0266",
+                    "primary-fixed-dim": "#ddb7ff",
+                    "surface-container-lowest": "#0f0d16",
+                    "tertiary-fixed-dim": "#c0c1ff",
+                    "surface-dim": "#14121b",
+                    "on-tertiary-container": "#0d0096",
+                    "surface-bright": "#3a3842",
+                    "inverse-on-surface": "#322f39",
+                    "secondary-fixed-dim": "#ffb0cd",
+                    "on-secondary-fixed-variant": "#8c0053",
+                    "error": "#ffb4ab",
+                    "primary": "#ddb7ff",
+                    "on-background": "#e6e0ee",
+                    "inverse-primary": "#842bd2",
+                    "surface-container-low": "#1c1a24",
+                    "secondary-fixed": "#ffd9e4",
+                    "on-primary-container": "#400071",
+                    "on-secondary-container": "#ffbad3",
+                    "error-container": "#93000a",
+                    "primary-container": "#b76dff",
+                    "on-error": "#690005",
+                    "outline": "#988d9f",
+                    "secondary": "#ffb0cd",
+                    "primary-fixed": "#f0dbff",
+                    "on-primary": "#490080",
+                    "on-secondary-fixed": "#3e0022",
+                    "on-primary-fixed-variant": "#6900b3",
+                    "on-error-container": "#ffdad6",
+                    "background": "#051424",
+                    "surface": "#122131"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "grid-gutter": "1rem",
+                    "stack-gap": "1rem",
+                    "card-inner-padding": "1.25rem",
+                    "section-margin": "2rem",
+                    "container-padding": "1.5rem"
+            },
+            "fontFamily": {
+                    "mono": ["JetBrains Mono", "monospace"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
-        body {
-            background-color: #051424;
-            color: #d4e4fa;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow: hidden;
+        
+        .waveform-bar {
+            width: 3px;
+            background-color: #ddb7ff;
+            border-radius: 2px;
+            animation: waveform 1s ease-in-out infinite;
         }
-        .matte-card {
-            background-color: #181B22;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
-            position: relative;
-        }
-        .matte-card::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.15), transparent);
-        }
-        .glow-ambient {
-            filter: blur(90px);
-            opacity: 0.12;
-            pointer-events: none;
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #051424; }
-        ::-webkit-scrollbar-thumb { background: #273647; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00E5FF; }
-
-        @keyframes scan-line {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(600px); }
-        }
-        .scan-beam {
-            position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, #00E5FF, transparent);
-            box-shadow: 0 0 15px #00E5FF;
-            animation: scan-line 8s linear infinite;
-            opacity: 0.4;
-            pointer-events: none;
+        
+        @keyframes waveform {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
         }
 
-        /* Pulse */
-        @keyframes node-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 15px #00E5FF; }
+        .glass-panel {
+            background: rgba(18, 33, 49, 0.75);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(221, 183, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
         }
-        .pulse-icon { animation: node-pulse 2.5s infinite ease-in-out; }
 
-        .prose pre {
-            background-color: #0d1c2d !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            border-radius: 8px !important;
-            padding: 12px !important;
+        .cyber-border-cyan {
+            border-left: 3px solid #00f2ff;
+            box-shadow: -4px 0 12px -2px rgba(0, 242, 255, 0.3);
         }
-        .prose code {
-            color: #00E5FF !important;
-            font-family: 'JetBrains Mono', monospace !important;
-            font-size: 0.85em !important;
+
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .view-hidden {
+            display: none;
         }
     </style>
 </head>
-<body class="flex h-screen w-screen selection:bg-cyan-500/30">
-<!-- Ambient Glows -->
-<div class="fixed inset-0 overflow-hidden -z-10 pointer-events-none">
-    <div class="glow-ambient absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-cyan-400 rounded-full"></div>
-    <div class="glow-ambient absolute bottom-[-5%] left-[10%] w-[500px] h-[500px] bg-emerald-500 rounded-full"></div>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 min-h-screen overflow-hidden">
+<!-- WebGL Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_20 -->
+<div class="fixed inset-0 w-full h-full z-0 opacity-40 pointer-events-none" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_20" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_20');
+
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+    float time = u_time * 0.3;
+    
+    vec3 color1 = vec3(0.02, 0.08, 0.14);
+    vec3 color2 = vec3(0.03, 0.05, 0.09);
+    
+    vec3 cyan = vec3(0.0, 0.9, 1.0) * 0.04; 
+    
+    float noise = sin(uv.x * 4.0 + time) * cos(uv.y * 3.0 - time * 0.7);
+    vec3 base = mix(color1, color2, uv.y + noise * 0.15);
+    
+    float scanline = sin(uv.y * 20.0 - time * 2.0) * 0.01;
+    base += scanline;
+    
+    float pulse = sin(time * 0.5) * 0.5 + 0.5;
+    vec2 center = vec2(0.5, 0.5);
+    float d = length(uv - center);
+    base += cyan * (1.2 - d) * pulse;
+
+    gl_FragColor = vec4(base, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_20 -->
+
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-white/10 shadow-2xl flex flex-col p-grid-gutter space-y-stack-gap z-50 transform transition-transform duration-300 md:translate-x-0 -translate-x-full" id="main-sidebar">
+<div class="flex items-center gap-3 px-2 mb-6">
+<div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tighter leading-none font-bold">JARVIS</h1>
+<p class="text-[10px] uppercase tracking-widest text-cyan-400 mt-1 font-mono">OBSIDIAN SUITE V1.0</p>
+</div>
 </div>
 
-<!-- Left Sidebar: Conversations & Views -->
-<aside class="w-72 bg-[#0a1828] border-r border-white/5 flex flex-col z-20">
-    <!-- Header / Brand -->
-    <div class="p-4 border-b border-white/5 flex items-center gap-3">
-        <div class="w-10 h-10 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center text-cyan-400 shadow-lg shadow-cyan-500/10 pulse-icon">
-            <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
-        </div>
-        <div>
-            <h1 class="font-bold text-lg text-white tracking-tight leading-none">JARVIS Companion</h1>
-            <p class="font-mono text-[10px] text-cyan-400/80 mt-1">OBSIDIAN SUITE V1.0</p>
-        </div>
-    </div>
+<nav class="space-y-2">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container text-on-primary-container font-bold transition-all shadow-lg" data-nav="jarvis-studio" onclick="switchView('jarvis-studio')">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-medium text-xs">JARVIS Studio</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant/30 transition-all text-xs font-medium" data-nav="knowledge-vault" onclick="switchView('knowledge-vault')">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+<span>Knowledge Vault</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant/30 transition-all text-xs font-medium" data-nav="telemetry" onclick="switchView('telemetry')">
+<span class="material-symbols-outlined text-[20px]">monitoring</span>
+<span>Hardware Telemetry</span>
+</button>
+</nav>
 
-    <!-- Navigation Tabs -->
-    <div class="p-3 space-y-1 border-b border-white/5">
-        <button onclick="switchView('studio')" id="tab-btn-studio" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20 transition-all">
-            <span class="material-symbols-outlined text-[18px]">forum</span>
-            JARVIS Studio (Chat)
-        </button>
-        <button onclick="switchView('vault')" id="tab-btn-vault" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
-            <span class="material-symbols-outlined text-[18px]">memory</span>
-            Knowledge Vault (RAG)
-        </button>
-        <button onclick="switchView('telemetry')" id="tab-btn-telemetry" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
-            <span class="material-symbols-outlined text-[18px]">speed</span>
-            Hardware Telemetry
+<!-- Past Conversations List -->
+<div class="flex-1 flex flex-col min-h-0 pt-4 border-t border-white/10">
+    <div class="flex justify-between items-center px-2 mb-2">
+        <span class="text-[10px] uppercase tracking-widest text-on-surface-variant opacity-70 font-mono font-bold">Sessions</span>
+        <button onclick="createNewChat()" class="p-1 rounded bg-primary/20 hover:bg-primary/30 text-primary transition-all flex items-center justify-center" title="New Session">
+            <span class="material-symbols-outlined text-[16px]">add</span>
         </button>
     </div>
-
-    <!-- Conversations Header -->
-    <div class="px-4 py-3 flex justify-between items-center">
-        <span class="font-mono text-[11px] uppercase tracking-wider text-slate-400">Past Conversations</span>
-        <button onclick="createNewChat()" class="p-1 rounded-md bg-white/5 hover:bg-cyan-500/20 hover:text-cyan-400 text-slate-300 transition-all" title="New Chat">
-            <span class="material-symbols-outlined text-[18px]">add</span>
-        </button>
-    </div>
-
-    <!-- Conversations List -->
-    <div id="conversations-list" class="flex-1 overflow-y-auto px-3 space-y-1 custom-scrollbar">
+    <div id="conv-list-container" class="flex-1 overflow-y-auto scroll-hide space-y-1 pr-1 font-mono text-xs">
         <!-- Populated via JS -->
     </div>
+</div>
 
-    <!-- Footer Status Banner -->
-    <div class="p-3 bg-[#07111e] border-t border-white/5 font-mono text-[11px]">
-        <div class="flex justify-between items-center mb-1">
-            <span class="text-slate-400">Model Engine:</span>
-            <span id="engine-status-badge" class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px]">OLLAMA READY</span>
-        </div>
-        <div class="flex justify-between items-center text-slate-400 text-[10px]">
-            <span>VRAM Budget:</span>
-            <span class="text-cyan-400 font-bold">2.0 / 4.0 GB (Optimal)</span>
-        </div>
+<div class="pt-3 border-t border-white/10 flex flex-col gap-2">
+    <!-- Model Selector inside Sidebar/Footer -->
+    <div class="bg-black/30 p-2.5 rounded-xl border border-white/5 space-y-1">
+        <span class="text-[10px] uppercase font-mono text-slate-400">Inference Engine</span>
+        <select id="model-selector" class="w-full bg-transparent border-none text-cyan-400 font-mono font-bold text-xs focus:ring-0 cursor-pointer p-0">
+            <option value="qwen2.5:3b" class="bg-[#0f0d16] text-white">qwen2.5:3b (Recommended 2GB VRAM)</option>
+            <option value="qwen2.5:7b" class="bg-[#0f0d16] text-white">qwen2.5:7b (Hybrid GPU/RAM)</option>
+            <option value="llama3.2:3b" class="bg-[#0f0d16] text-white">llama3.2:3b (Fast Conversational)</option>
+        </select>
     </div>
+    <div class="flex items-center justify-between text-[11px] text-on-surface-variant px-2">
+        <span>VRAM Budget: 4GB</span>
+        <span id="engine-status-badge" class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-bold text-[9px]">ONLINE</span>
+    </div>
+</div>
 </aside>
 
-<!-- Main Workspace -->
-<main class="flex-1 flex flex-col relative bg-[#051424] overflow-hidden">
-    <div class="scan-beam"></div>
+<!-- Main Content Area -->
+<main class="relative z-10 md:ml-72 flex flex-col h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 left-0 md:left-72 z-40 bg-surface-container-low/60 backdrop-blur-xl border-b border-white/10 px-container-padding h-16 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-primary" id="menu-toggle">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div>
+    <h2 id="current-chat-title" class="font-headline-md text-headline-md font-bold tracking-tighter text-primary leading-none">JARVIS COMMAND CENTER</h2>
+    <p class="text-[11px] text-on-surface-variant font-mono mt-0.5">Atrik Samanta's Personal Operations Studio</p>
+</div>
+</div>
 
-    <!-- VIEW 1: STITCH STUDIO (CHAT) -->
-    <section id="view-studio" class="flex-1 flex flex-col h-full">
-        <!-- Top Chat Header -->
-        <header class="h-16 border-b border-white/5 px-6 flex justify-between items-center bg-[#071322]/80 backdrop-blur-md z-10">
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-cyan-400">terminal</span>
-                <div>
-                    <h2 id="current-chat-title" class="font-bold text-sm text-white">JARVIS Strategic Companion</h2>
-                    <p class="font-mono text-[11px] text-slate-400">Optimized for Intel i5-12500H & RTX 3050 Laptop</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3 font-mono text-xs">
-                <!-- Model selector -->
-                <div class="flex items-center gap-2 bg-[#122131] px-3 py-1.5 rounded-lg border border-white/10">
-                    <span class="text-slate-400">Model:</span>
-                    <select id="model-selector" class="bg-transparent border-none text-cyan-400 font-bold focus:ring-0 text-xs cursor-pointer">
-                        <option value="qwen2.5:3b">qwen2.5:3b (Recommended - 2GB VRAM)</option>
-                        <option value="qwen2.5:7b">qwen2.5:7b (Hybrid GPU/RAM)</option>
-                        <option value="llama3.2:3b">llama3.2:3b (Fast Conversational)</option>
-                    </select>
-                </div>
-                <!-- Test Voice Button -->
-                <button onclick="testVoiceNow()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 transition-all border border-emerald-500/40 font-bold active:scale-95" title="Click to test speech synthesis out loud">
-                    <span class="material-symbols-outlined text-[18px]">campaign</span>
-                    <span>Test Voice</span>
-                </button>
-                <!-- Voice Read Toggle -->
-                <button onclick="toggleVoiceOutput()" id="voice-toggle-btn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition-all font-bold" title="Toggle Spoken Voice Output">
-                    <span id="voice-icon" class="material-symbols-outlined text-[18px]">volume_up</span>
-                    <span id="voice-text">Voice Spoken</span>
-                </button>
-                <!-- Continuous Hands-Free Talk -->
-                <button onclick="toggleContinuousVoice()" id="walkie-toggle-btn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition-all border border-white/5" title="Hands-Free Continuous Voice Mode">
-                    <span id="walkie-icon" class="material-symbols-outlined text-[18px]">mic_off</span>
-                    <span id="walkie-text">Hands-Free: OFF</span>
-                </button>
-            </div>
-        </header>
+<div class="hidden xl:flex items-center gap-2">
+<div class="px-3 py-1 bg-surface-container-high rounded-full border border-white/5 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-label-md font-label-md text-on-surface-variant font-mono">CPU: i5-12500H</span>
+</div>
+<div class="px-3 py-1 bg-surface-container-high rounded-full border border-white/5 flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant font-mono">VRAM: RTX 3050</span>
+</div>
+<div class="px-3 py-1 bg-surface-container-high rounded-full border border-white/5 flex items-center gap-2">
+<span class="text-label-md font-label-md text-on-surface-variant font-mono">RAM: 16GB</span>
+</div>
+</div>
 
-        <!-- Messages Container -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-            <!-- Welcome Banner -->
-            <div class="max-w-3xl mx-auto matte-card rounded-2xl p-6 border-l-4 border-l-cyan-400 bg-gradient-to-r from-[#122131] to-[#0d1c2d]">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
-                        <span class="material-symbols-outlined text-[28px]">auto_awesome</span>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="font-bold text-lg text-white">Greetings, Atrik. I am JARVIS.</h3>
-                        <p class="text-sm text-slate-300 leading-relaxed">
-                            I am your custom-engineered personal AI companion running **100% locally** on your device. I have been fine-tuned with a gentle obsidian aesthetic and calibrated to consume minimal system resources (`<2 GB VRAM` on your RTX 3050).
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 font-mono text-xs">
-                            <div class="bg-black/30 p-2.5 rounded-lg border border-white/5">
-                                <span class="text-cyan-400 font-bold block mb-0.5">🚀 0% System Bloat</span>
-                                <span class="text-slate-400 text-[11px]">No heavy Electron or cloud delays. Clean FastAPI streaming.</span>
-                            </div>
-                            <div class="bg-black/30 p-2.5 rounded-lg border border-white/5">
-                                <span class="text-emerald-400 font-bold block mb-0.5">🧠 RAG Knowledge Vault</span>
-                                <span class="text-slate-400 text-[11px]">I remember your personal notes, rules, and project details across sessions.</span>
-                            </div>
-                            <div class="bg-black/30 p-2.5 rounded-lg border border-white/5">
-                                <span class="text-amber-400 font-bold block mb-0.5">🎤 Voice Enabled</span>
-                                <span class="text-slate-400 text-[11px]">Speak right into your microphone or let me read answers out loud.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="flex items-center gap-2">
+<!-- Test Voice Button -->
+<button onclick="testVoiceNow()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 transition-all border border-emerald-500/40 font-mono text-xs font-bold active:scale-95 shadow-md" title="Test speech synthesis audio">
+    <span class="material-symbols-outlined text-[18px]">campaign</span>
+    <span class="hidden sm:inline">Test Voice</span>
+</button>
+<!-- Voice Spoken Toggle -->
+<button onclick="toggleVoiceOutput()" id="voice-toggle-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/20 text-primary border border-primary/40 transition-all font-mono text-xs font-bold shadow-md" title="Toggle Spoken Voice Output">
+    <span id="voice-icon" class="material-symbols-outlined text-[18px]">volume_up</span>
+    <span id="voice-text" class="hidden sm:inline">Voice Spoken</span>
+</button>
+<!-- Hands-Free Toggle -->
+<button onclick="toggleContinuousVoice()" id="walkie-toggle-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 transition-all border border-white/10 font-mono text-xs font-bold" title="Continuous Walkie-Talkie Mode">
+    <span id="walkie-icon" class="material-symbols-outlined text-[18px]">mic_off</span>
+    <span id="walkie-text" class="hidden sm:inline">Hands-Free: OFF</span>
+</button>
+</div>
+</header>
+
+<!-- View Containers -->
+<div class="flex-1 overflow-y-auto scroll-hide pt-20 pb-36 px-container-padding max-w-5xl mx-auto w-full" id="content-canvas">
+
+<!-- JARVIS Studio View -->
+<section class="space-y-6" id="jarvis-studio">
+<!-- Welcome Banner -->
+<div class="glass-panel p-6 rounded-2xl border border-white/10 relative overflow-hidden shadow-xl">
+<div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]">smart_toy</span>
+</div>
+<div class="flex items-start gap-4">
+    <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary shrink-0 border border-primary/30 shadow-md">
+        <span class="material-symbols-outlined text-[28px]">auto_awesome</span>
+    </div>
+    <div class="space-y-1.5 z-10">
+        <h2 class="font-headline-lg text-headline-lg text-primary font-bold">Systems Operational — Greetings, Atrik.</h2>
+        <p class="text-on-surface-variant text-sm max-w-2xl leading-relaxed">Your local GPU context is synchronized. i5-12500H and RTX 3050 are currently processing inference with zero cloud latency. JARVIS is ready for strategic operations and high-speed voice dialogue.</p>
+        <div class="pt-3 flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded-lg text-[10px] font-mono bg-primary/15 text-primary border border-primary/30 font-bold">🚀 0% System Bloat</span>
+            <span class="px-2.5 py-1 rounded-lg text-[10px] font-mono bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold">⚡ RTX 3050 Optimized (<2GB VRAM)</span>
+            <span class="px-2.5 py-1 rounded-lg text-[10px] font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold">🎙️ Voice Spoken Enabled</span>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Chat History Container -->
+<div id="chat-messages" class="space-y-6 mt-6 pb-4">
+<!-- Initial system greeting item -->
+<div class="flex flex-col gap-2 items-start max-w-[90%]">
+<div class="flex items-center gap-2 ml-2">
+<span class="text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold font-mono">JARVIS CORE</span>
+<div class="flex items-end gap-0.5 h-4 px-1">
+<div class="waveform-bar" style="animation-delay: 0.1s"></div>
+<div class="waveform-bar" style="animation-delay: 0.3s"></div>
+<div class="waveform-bar" style="animation-delay: 0.2s"></div>
+<div class="waveform-bar" style="animation-delay: 0.4s"></div>
+<div class="waveform-bar" style="animation-delay: 0.1s"></div>
+</div>
+</div>
+<div class="glass-panel cyber-border-cyan p-5 rounded-r-2xl rounded-bl-2xl text-body-md text-on-surface leading-relaxed shadow-xl">
+    Good morning, Director Atrik. All local systems, RAG personal memories, and speech engines are online and synchronized. What tactical instructions or questions do you have for me today?
+</div>
+</div>
+</div>
+</section>
+
+<!-- Knowledge Vault View (Hidden Initially) -->
+<section class="view-hidden space-y-6" id="knowledge-vault">
+<div class="glass-panel p-6 rounded-2xl border border-white/10 shadow-xl space-y-6">
+    <div class="flex justify-between items-center border-b border-white/10 pb-4">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-[28px]">auto_stories</span>
+            <div>
+                <h3 class="font-headline-md text-headline-md font-bold text-white">Strategic RAG Knowledge Vault</h3>
+                <p class="text-xs text-on-surface-variant">Permanent rules, identity parameters, and project instructions that JARVIS always recalls.</p>
+            </div>
+        </div>
+        <button onclick="showAddNoteModal()" class="px-4 py-2.5 bg-primary hover:bg-primary/80 text-on-primary font-mono text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined text-[18px]">add_circle</span>
+            <span>Add Strategic Rule</span>
+        </button>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+            <tr class="font-mono text-[11px] text-primary uppercase bg-black/40 border-b border-white/10">
+                <th class="px-4 py-3 font-bold w-56">Category / Topic</th>
+                <th class="px-4 py-3 font-bold">Memory / Instruction Content</th>
+                <th class="px-4 py-3 font-bold text-right w-28">Action</th>
+            </tr>
+            </thead>
+            <tbody id="notes-tbody" class="font-mono text-xs divide-y divide-white/10">
+            <!-- Populated via JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</section>
+
+<!-- Telemetry View (Hidden Initially) -->
+<section class="view-hidden space-y-6" id="telemetry">
+<div class="glass-panel p-8 rounded-2xl border border-white/10 shadow-xl space-y-8">
+    <div class="border-b border-white/10 pb-4">
+        <h3 class="font-headline-lg text-headline-lg text-primary font-bold flex items-center gap-3">
+            <span class="material-symbols-outlined text-emerald-400">speed</span>
+            Hardware Telemetry & Performance Dashboard
+        </h3>
+        <p class="text-sm text-on-surface-variant mt-1">Live hardware diagnostic confirming optimal thermal dissipation and zero memory paging.</p>
+    </div>
+
+    <div class="space-y-6">
+        <div>
+            <div class="flex justify-between text-xs font-mono font-bold mb-2 text-on-surface-variant">
+                <span>INTEL CORE i5-12500H PROCESSOR LOAD</span>
+                <span id="tele-cpu" class="text-primary">24%</span>
+            </div>
+            <div class="h-3 w-full bg-black/40 rounded-full overflow-hidden border border-white/10">
+                <div id="tele-cpu-bar" class="h-full bg-primary transition-all duration-500" style="width: 24%"></div>
+            </div>
+        </div>
+        <div>
+            <div class="flex justify-between text-xs font-mono font-bold mb-2 text-on-surface-variant">
+                <span>NVIDIA RTX 3050 VRAM UTILIZATION</span>
+                <span id="tele-vram" class="text-cyan-400">2.0 / 4.0 GB (50%)</span>
+            </div>
+            <div class="h-3 w-full bg-black/40 rounded-full overflow-hidden border border-white/10">
+                <div id="tele-vram-bar" class="h-full bg-cyan-400 shadow-[0_0_12px_rgba(0,242,255,0.6)] transition-all duration-500" style="width: 50%"></div>
             </div>
         </div>
 
-        <!-- Input Bar -->
-        <div class="p-4 border-t border-white/5 bg-[#071322]/90 backdrop-blur-md">
-            <div class="max-w-4xl mx-auto flex items-end gap-3 bg-[#122131] border border-white/10 rounded-2xl p-2.5 focus-within:border-cyan-500/50 transition-all shadow-xl">
-                <!-- Speech-to-text mic -->
-                <button onclick="startVoiceRecognition()" id="mic-btn" class="p-2 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-slate-400 hover:text-cyan-400 transition-all shrink-0" title="Click to speak">
-                    <span class="material-symbols-outlined text-[22px]">mic</span>
-                </button>
-                <textarea id="prompt-input" rows="1" class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-white placeholder:text-slate-500 resize-none max-h-32 py-1.5 focus:outline-none" placeholder="Message JARVIS... (Press Enter to send, Shift+Enter for newline)"></textarea>
-                <button onclick="sendPrompt()" id="send-btn" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shrink-0 shadow-lg shadow-cyan-500/20">
-                    <span class="text-xs font-mono">SEND</span>
-                    <span class="material-symbols-outlined text-[18px]">send</span>
-                </button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div class="p-5 bg-black/30 rounded-xl border border-white/10 flex flex-col justify-between">
+                <span class="block text-[10px] font-mono text-on-surface-variant uppercase tracking-wider mb-2">GPU THERMAL LEVEL</span>
+                <div class="flex items-end justify-between">
+                    <span class="text-2xl font-mono font-bold text-primary">58°C</span>
+                    <span class="text-xs text-emerald-400 font-mono">● Cool / Optimal</span>
+                </div>
             </div>
-            <div class="max-w-4xl mx-auto flex justify-between items-center px-2 mt-2 font-mono text-[10px] text-slate-500">
-                <span>⚡ Hardware budget: 4GB VRAM | 16GB RAM | Intel i5-12500H</span>
-                <span id="stream-status">Ready</span>
+            <div class="p-5 bg-black/30 rounded-xl border border-white/10 flex flex-col justify-between">
+                <span class="block text-[10px] font-mono text-on-surface-variant uppercase tracking-wider mb-2">SYSTEM RAM ALLOCATION</span>
+                <div class="flex items-end justify-between">
+                    <span class="text-2xl font-mono font-bold text-cyan-400">6.4 / 16 GB</span>
+                    <span class="text-xs text-slate-400 font-mono">40% Active</span>
+                </div>
+            </div>
+            <div class="p-5 bg-black/30 rounded-xl border border-white/10 flex flex-col justify-between">
+                <span class="block text-[10px] font-mono text-on-surface-variant uppercase tracking-wider mb-2">FASTAPI INFERENCE ENGINE</span>
+                <div class="flex items-end justify-between">
+                    <span class="text-2xl font-mono font-bold text-emerald-400">0.02 ms</span>
+                    <span class="text-xs text-emerald-400 font-mono">Zero Latency</span>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
+</section>
 
-    <!-- VIEW 2: KNOWLEDGE VAULT (RAG MEMORY) -->
-    <section id="view-vault" class="flex-1 flex flex-col h-full p-8 overflow-y-auto custom-scrollbar" style="display: none;">
-        <div class="max-w-4xl mx-auto w-full space-y-6">
-            <div class="flex justify-between items-center border-b border-white/10 pb-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-                        <span class="material-symbols-outlined text-cyan-400">memory</span>
-                        Personal Knowledge Vault (RAG Memory)
-                    </h2>
-                    <p class="text-sm text-slate-400 mt-1">Add rules, personal routines, or project summaries. Stitch automatically searches and recalls these during conversations!</p>
-                </div>
-                <button onclick="showAddNoteModal()" class="px-4 py-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-mono text-xs font-bold rounded-xl hover:bg-emerald-500/30 transition-all flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-[18px]">add_circle</span>
-                    Add Personal Note
-                </button>
-            </div>
+</div>
 
-            <!-- Notes Table -->
-            <div class="matte-card rounded-xl overflow-hidden border border-white/5">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                    <tr class="font-mono text-[11px] text-slate-400 uppercase bg-[#0d1c2d]">
-                        <th class="px-4 py-3 font-medium w-48">Category</th>
-                        <th class="px-4 py-3 font-medium">Memory / Instruction Content</th>
-                        <th class="px-4 py-3 font-medium text-right w-28">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody id="notes-tbody" class="font-mono text-xs divide-y divide-white/5">
-                    <!-- Populated via JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- VIEW 3: HARDWARE TELEMETRY -->
-    <section id="view-telemetry" class="flex-1 flex flex-col h-full p-8 overflow-y-auto custom-scrollbar" style="display: none;">
-        <div class="max-w-4xl mx-auto w-full space-y-6">
-            <div class="border-b border-white/10 pb-4">
-                <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-                    <span class="material-symbols-outlined text-emerald-400">speed</span>
-                    Hardware Optimization & Telemetry Dashboard
-                </h2>
-                <p class="text-sm text-slate-400 mt-1">Live hardware diagnostic confirming that your laptop runs cool with zero stutter or memory paging.</p>
-            </div>
-
-            <!-- KPI Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="matte-card p-5 rounded-2xl border border-white/5 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <span class="font-mono text-xs text-slate-400 uppercase">Processor Status</span>
-                        <span class="material-symbols-outlined text-cyan-400">cpu</span>
-                    </div>
-                    <div class="mt-4">
-                        <span id="tele-cpu" class="text-3xl font-bold text-white">12.4%</span>
-                        <span class="font-mono text-xs text-cyan-400 block mt-1">Intel Core i5-12500H (12C/16T)</span>
-                    </div>
-                    <div class="w-full h-1.5 bg-white/5 rounded-full mt-4 overflow-hidden">
-                        <div id="bar-cpu" class="h-full bg-cyan-400 w-[12%] transition-all duration-500"></div>
-                    </div>
-                </div>
-
-                <div class="matte-card p-5 rounded-2xl border border-white/5 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <span class="font-mono text-xs text-slate-400 uppercase">System Memory (RAM)</span>
-                        <span class="material-symbols-outlined text-emerald-400">memory</span>
-                    </div>
-                    <div class="mt-4">
-                        <span id="tele-ram" class="text-3xl font-bold text-white">13.1 / 16 GB</span>
-                        <span class="font-mono text-xs text-emerald-400 block mt-1">2.9 GB Free for Model Layers</span>
-                    </div>
-                    <div class="w-full h-1.5 bg-white/5 rounded-full mt-4 overflow-hidden">
-                        <div id="bar-ram" class="h-full bg-emerald-400 w-[81%] transition-all duration-500"></div>
-                    </div>
-                </div>
-
-                <div class="matte-card p-5 rounded-2xl border border-white/5 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <span class="font-mono text-xs text-slate-400 uppercase">GPU VRAM Budget</span>
-                        <span class="material-symbols-outlined text-amber-400">videocard</span>
-                    </div>
-                    <div class="mt-4">
-                        <span class="text-3xl font-bold text-white">~2.0 / 4.0 GB</span>
-                        <span class="font-mono text-xs text-amber-400 block mt-1">NVIDIA RTX 3050 Laptop GPU</span>
-                    </div>
-                    <div class="w-full h-1.5 bg-white/5 rounded-full mt-4 overflow-hidden">
-                        <div class="h-full bg-amber-400 w-[50%]"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="matte-card p-6 rounded-2xl border border-white/5 space-y-3 font-mono text-xs text-slate-300">
-                <h4 class="font-bold text-white flex items-center gap-2">
-                    <span class="material-symbols-outlined text-cyan-400 text-[18px]">check_circle</span>
-                    Why this app will never lag your laptop:
-                </h4>
-                <ul class="list-disc pl-5 space-y-1.5 text-slate-400">
-                    <li><b>Direct SQLite Storage:</b> All conversations and RAG vectors are stored cleanly inside <code class="text-cyan-400">stitch_memory.db</code> with zero database bloat.</li>
-                    <li><b>Asynchronous Streaming:</b> Tokens stream from your GPU directly via FastAPI Server-Sent Events, meaning the UI never freezes or locks up during long generations.</li>
-                    <li><b>VRAM Headroom:</b> By recommending <code class="text-cyan-400">qwen2.5:3b</code> (~2.0 GB), you keep 2 GB of your RTX 3050 VRAM completely free for Windows desktop composition, smooth scrolling, and other active apps!</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<!-- Bottom Bar / Input Console -->
+<footer class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] md:w-[68%] lg:w-[56%] z-50">
+<div class="glass-panel rounded-2xl border border-white/15 p-2 shadow-2xl flex items-end gap-2 group focus-within:border-primary/60 transition-all duration-300">
+<!-- Mic Button -->
+<button onclick="startVoiceRecognition()" id="voice-btn" class="p-3.5 rounded-xl bg-white/5 hover:bg-primary/20 text-on-surface-variant hover:text-primary transition-all flex-shrink-0 flex items-center justify-center" title="Click to speak (Speech to Text)">
+    <span class="material-symbols-outlined transition-all text-[24px]" id="mic-icon">mic</span>
+</button>
+<!-- Textarea -->
+<textarea id="prompt-input" class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-on-surface py-3.5 px-2 resize-none scroll-hide min-h-[48px] max-h-32 font-body-md text-sm placeholder:text-slate-500" oninput="this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 128) + 'px'" placeholder="Message JARVIS... (Press Enter to transmit, Shift+Enter for newline)" rows="1"></textarea>
+<!-- Send Button -->
+<button onclick="sendPrompt()" id="send-btn" class="bg-primary hover:bg-primary/80 text-on-primary px-5 py-3.5 rounded-xl hover:scale-105 active:scale-95 font-mono text-xs font-bold transition-all flex-shrink-0 flex items-center gap-1.5 shadow-lg shadow-primary/25">
+    <span>SEND</span>
+    <span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+<div class="flex justify-between items-center px-4 mt-1.5 font-mono text-[10px] text-on-surface-variant opacity-70">
+    <span>⚡ Hardware Budget: 4GB VRAM | 16GB RAM | Intel Core i5-12500H</span>
+    <span id="stream-status">Ready</span>
+</div>
+</footer>
 </main>
 
 <!-- Add Note Modal -->
-<div id="note-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-    <div class="matte-card p-6 rounded-2xl max-w-md w-full border border-white/10 space-y-4">
-        <h3 class="font-bold text-lg text-white">Add RAG Knowledge Note</h3>
-        <div class="space-y-2">
-            <label class="font-mono text-xs text-slate-400">Category / Topic</label>
-            <input id="note-cat-input" type="text" class="w-full bg-[#0d1c2d] border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-cyan-400 font-mono" placeholder="e.g. Daily Schedule / Coding Rule / Logistics Project" value="Personal Preference"/>
+<div id="note-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-white/20 shadow-2xl space-y-4">
+        <h3 class="font-headline-md text-headline-md font-bold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">add_circle</span>
+            Add Strategic Rule / Memory
+        </h3>
+        <p class="text-xs text-on-surface-variant">Enter permanent notes or behavioral rules for JARVIS to store in your RAG Knowledge Vault.</p>
+        <div class="space-y-1.5">
+            <label class="font-mono text-[11px] text-primary uppercase font-bold">Category / Topic</label>
+            <input id="note-cat-input" type="text" class="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-primary font-mono" placeholder="e.g. Coding Preference / System Rule / Daily Routine" value="Strategic Directive"/>
         </div>
-        <div class="space-y-2">
-            <label class="font-mono text-xs text-slate-400">Exact Memory / Instruction</label>
-            <textarea id="note-cont-input" rows="4" class="w-full bg-[#0d1c2d] border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-cyan-400 font-mono" placeholder="Enter the exact details or rule you want JARVIS to always remember..."></textarea>
+        <div class="space-y-1.5">
+            <label class="font-mono text-[11px] text-primary uppercase font-bold">Exact Instruction / Memory</label>
+            <textarea id="note-cont-input" rows="4" class="w-full bg-black/50 border border-white/10 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-primary font-mono" placeholder="Enter the exact details you want JARVIS to always remember..."></textarea>
         </div>
         <div class="flex justify-end gap-3 pt-2">
-            <button onclick="closeNoteModal()" class="px-4 py-2 rounded-lg font-mono text-xs text-slate-400 hover:text-white transition-all">Cancel</button>
-            <button onclick="saveNewNote()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono text-xs font-bold rounded-lg transition-all">Save to Memory</button>
+            <button onclick="closeNoteModal()" class="px-4 py-2 rounded-xl font-mono text-xs text-on-surface-variant hover:text-white transition-all">Cancel</button>
+            <button onclick="saveNewNote()" class="px-5 py-2 bg-primary hover:bg-primary/80 text-on-primary font-mono text-xs font-bold rounded-xl transition-all shadow-lg">Save to Vault</button>
         </div>
     </div>
 </div>
@@ -359,280 +525,42 @@
 <script>
     let currentConversationId = null;
     let voiceOutputEnabled = true;
-
-    // View Switcher
-    function switchView(viewName) {
-        ['studio', 'vault', 'telemetry'].forEach(v => {
-            const el = document.getElementById('view-' + v);
-            const btn = document.getElementById('tab-btn-' + v);
-            if (v === viewName) {
-                el.style.display = 'flex';
-                btn.className = 'w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20 transition-all';
-            } else {
-                el.style.display = 'none';
-                btn.className = 'w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all';
-            }
-        });
-        if (viewName === 'vault') loadNotes();
-        if (viewName === 'telemetry') checkStatus();
-    }
-
-    // Load Conversations List
-    async function loadConversations() {
-        const res = await fetch('/api/conversations');
-        const convs = await res.json();
-        const container = document.getElementById('conversations-list');
-        container.innerHTML = '';
-        
-        convs.forEach(c => {
-            const div = document.createElement('div');
-            const isActive = c.id === currentConversationId;
-            div.className = `flex justify-between items-center px-3 py-2 rounded-lg cursor-pointer transition-all font-mono text-xs ${isActive ? 'bg-cyan-500/20 text-cyan-400 font-bold border border-cyan-500/30' : 'text-slate-300 hover:bg-white/5'}`;
-            div.innerHTML = `
-                <span onclick="selectConversation(${c.id}, '${c.title.replace(/'/g, "\\'")}')" class="truncate flex-1">${c.title}</span>
-                <span onclick="deleteConversation(${c.id}, event)" class="material-symbols-outlined text-[16px] opacity-40 hover:opacity-100 hover:text-red-400 transition-opacity ml-2">delete</span>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    async function createNewChat() {
-        currentConversationId = null;
-        document.getElementById('current-chat-title').innerText = "New Strategic Session";
-        document.getElementById('chat-messages').innerHTML = `
-            <div class="max-w-3xl mx-auto matte-card rounded-2xl p-6 border-l-4 border-l-cyan-400 bg-gradient-to-r from-[#122131] to-[#0d1c2d]">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
-                        <span class="material-symbols-outlined text-[28px]">auto_awesome</span>
-                    </div>
-                    <div class="space-y-1">
-                        <h3 class="font-bold text-base text-white">New Session Initiated</h3>
-                        <p class="text-xs text-slate-300">Send a prompt below to start conversing with your personal RAG-connected memory.</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        await loadConversations();
-    }
-
-    async function selectConversation(id, title) {
-        currentConversationId = id;
-        document.getElementById('current-chat-title').innerText = title;
-        await loadConversations();
-        
-        const res = await fetch(`/api/conversations/${id}/messages`);
-        const msgs = await res.json();
-        const container = document.getElementById('chat-messages');
-        container.innerHTML = '';
-        
-        msgs.forEach(m => {
-            appendBubble(m.role, m.content, false);
-        });
-        container.scrollTop = container.scrollHeight;
-    }
-
-    async function deleteConversation(id, e) {
-        e.stopPropagation();
-        await fetch(`/api/conversations/${id}`, { method: 'DELETE' });
-        if (currentConversationId === id) createNewChat();
-        else loadConversations();
-    }
-
-    function appendBubble(role, content, isStreaming=false) {
-        const container = document.getElementById('chat-messages');
-        const div = document.createElement('div');
-        div.className = "max-w-3xl mx-auto flex items-start gap-3";
-        
-        if (role === 'user') {
-            div.innerHTML = `
-                <div class="flex-1 text-right">
-                    <div class="inline-block bg-cyan-500/20 border border-cyan-500/40 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm font-medium shadow-lg">
-                        ${content}
-                    </div>
-                </div>
-                <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold text-xs shrink-0">AS</div>
-            `;
-        } else {
-            const htmlContent = marked.parse(content);
-            div.id = isStreaming ? "streaming-bubble" : "";
-            div.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0">
-                    <span class="material-symbols-outlined text-[18px]">shield_with_heart</span>
-                </div>
-                <div class="flex-1 bg-[#122131] border border-white/10 text-slate-200 rounded-2xl rounded-tl-sm px-5 py-4 text-sm shadow-xl prose prose-invert max-w-none">
-                    ${htmlContent}
-                </div>
-            `;
-        }
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-        return div;
-    }
-
-    async function sendPrompt() {
-        const inputEl = document.getElementById('prompt-input');
-        const prompt = inputEl.value.trim();
-        if (!prompt) return;
-        
-        inputEl.value = '';
-        appendBubble('user', prompt);
-        
-        const streamBubble = appendBubble('assistant', '<i>Thinking...</i>', true);
-        const contentBox = streamBubble.querySelector('.prose');
-        let rawAssistantText = "";
-        
-        document.getElementById('stream-status').innerText = "Streaming from GPU...";
-        
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    conversation_id: currentConversationId,
-                    prompt: prompt,
-                    model: document.getElementById('model-selector').value
-                })
-            });
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder("utf-8");
-            let firstChunk = true;
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                
-                const lines = decoder.decode(value, { stream: true }).split('\n\n');
-                for (let line of lines) {
-                    if (line.startsWith('data: ')) {
-                        const dataStr = line.substring(6);
-                        try {
-                            const data = JSON.parse(dataStr);
-                            if (data.conv_id && !currentConversationId) {
-                                currentConversationId = data.conv_id;
-                                loadConversations();
-                            }
-                            if (data.token) {
-                                if (firstChunk) {
-                                    rawAssistantText = "";
-                                    firstChunk = false;
-                                }
-                                rawAssistantText += data.token;
-                                contentBox.innerHTML = marked.parse(rawAssistantText);
-                                const container = document.getElementById('chat-messages');
-                                container.scrollTop = container.scrollHeight;
-                            }
-                        } catch (err) {}
-                    }
-                }
-            }
-            if (voiceOutputEnabled && rawAssistantText) {
-                speakText(rawAssistantText.replace(/<[^>]*>?/gm, ''));
-            }
-        } catch (e) {
-            contentBox.innerHTML = "<span class='text-red-400'>Error generating response. Check terminal or Ollama status.</span>";
-        }
-        document.getElementById('stream-status').innerText = "Ready";
-    }
-
-    // Handle Enter to send
-    document.getElementById('prompt-input').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendPrompt();
-        }
-    });
-
-    // RAG Notes Management
-    async function loadNotes() {
-        const res = await fetch('/api/notes');
-        const notes = await res.json();
-        const tbody = document.getElementById('notes-tbody');
-        tbody.innerHTML = '';
-        notes.forEach(n => {
-            const tr = document.createElement('tr');
-            tr.className = "hover:bg-white/5 transition-colors";
-            tr.innerHTML = `
-                <td class="px-4 py-3 font-semibold text-cyan-400">${n.category}</td>
-                <td class="px-4 py-3 text-slate-300 whitespace-pre-wrap">${n.content}</td>
-                <td class="px-4 py-3 text-right">
-                    <button onclick="deleteNote(${n.id})" class="px-2.5 py-1 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-[11px] transition-all">Delete</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function showAddNoteModal() {
-        document.getElementById('note-modal').classList.remove('hidden');
-    }
-    function closeNoteModal() {
-        document.getElementById('note-modal').classList.add('hidden');
-    }
-    async function saveNewNote() {
-        const cat = document.getElementById('note-cat-input').value.trim() || 'Personal Rule';
-        const cont = document.getElementById('note-cont-input').value.trim();
-        if (!cont) return alert('Memory content cannot be empty');
-        
-        await fetch('/api/notes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ category: cat, content: cont })
-        });
-        document.getElementById('note-cont-input').value = '';
-        closeNoteModal();
-        loadNotes();
-    }
-    async function deleteNote(id) {
-        await fetch(`/api/notes/${id}`, { method: 'DELETE' });
-        loadNotes();
-    }
-
-    // Check Status and update badge
-    async function checkStatus() {
-        try {
-            const res = await fetch('/api/status');
-            const data = await res.json();
-            const badge = document.getElementById('engine-status-badge');
-            if (data.ollama_ready) {
-                badge.className = "px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px]";
-                badge.innerText = "OLLAMA ONLINE (" + data.installed_models.length + " Models)";
-            } else {
-                badge.className = "px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 text-[10px]";
-                badge.innerText = "SIMULATION / DEMO MODE";
-            }
-            if (data.telemetry) {
-                document.getElementById('tele-cpu').innerText = data.telemetry.cpu_percent + "%";
-                document.getElementById('bar-cpu').style.width = data.telemetry.cpu_percent + "%";
-                document.getElementById('tele-ram').innerText = data.telemetry.ram_used_gb + " / " + data.telemetry.ram_total_gb + " GB";
-                document.getElementById('bar-ram').style.width = data.telemetry.ram_percent + "%";
-            }
-        } catch (e) {}
-    }
-
     let continuousVoiceMode = false;
 
-    function toggleContinuousVoice() {
-        continuousVoiceMode = !continuousVoiceMode;
-        const icon = document.getElementById('walkie-icon');
-        const text = document.getElementById('walkie-text');
-        const btn = document.getElementById('walkie-toggle-btn');
-        if (continuousVoiceMode) {
-            voiceOutputEnabled = true; // force voice output on
-            document.getElementById('voice-icon').innerText = "volume_up";
-            document.getElementById('voice-text').innerText = "Voice Spoken";
-            document.getElementById('voice-toggle-btn').className = "flex items-center gap-1 px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition-all font-bold";
+    // View Switching Logic
+    function switchView(viewId) {
+        const views = ['jarvis-studio', 'knowledge-vault', 'telemetry'];
+        views.forEach(id => {
+            const el = document.getElementById(id);
+            const navBtn = document.querySelector(`[data-nav="${id}"]`);
+            if (!el || !navBtn) return;
             
-            icon.innerText = "record_voice_over";
-            text.innerText = "Hands-Free: ON";
-            btn.className = "flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 border border-red-500/40 transition-all font-bold animate-pulse";
-            startVoiceRecognition();
-        } else {
-            icon.innerText = "mic_off";
-            text.innerText = "Hands-Free: OFF";
-            btn.className = "flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition-all border border-white/5";
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            if (id === viewId) {
+                el.classList.remove('view-hidden');
+                navBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-variant/30');
+                navBtn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold', 'shadow-lg');
+            } else {
+                el.classList.add('view-hidden');
+                navBtn.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold', 'shadow-lg');
+                navBtn.classList.add('text-on-surface-variant', 'hover:bg-surface-variant/30');
+            }
+        });
+
+        if (viewId === 'knowledge-vault') loadNotes();
+        if (viewId === 'telemetry') checkStatus();
+
+        if (window.innerWidth < 768) {
+            document.getElementById('main-sidebar').classList.add('-translate-x-full');
         }
+    }
+
+    // Mobile Sidebar Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('main-sidebar');
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
     }
 
     // Voice Functions
@@ -643,25 +571,42 @@
         const btn = document.getElementById('voice-toggle-btn');
         if (voiceOutputEnabled) {
             icon.innerText = "volume_up";
-            text.innerText = "Voice Spoken";
-            btn.className = "flex items-center gap-1 px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition-all font-bold";
+            if (text) text.innerText = "Voice Spoken";
+            btn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/20 text-primary border border-primary/40 transition-all font-mono text-xs font-bold shadow-md";
             speakText("Voice enabled.");
         } else {
             icon.innerText = "volume_off";
-            text.innerText = "Voice Muted";
-            btn.className = "flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition-all border border-white/5";
+            if (text) text.innerText = "Voice Muted";
+            btn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 transition-all border border-white/10 font-mono text-xs font-bold";
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         }
     }
 
     function testVoiceNow() {
         if (!('speechSynthesis' in window)) return alert("Speech synthesis not supported in this browser.");
-        speakText("Hello Atrik. I am JARVIS. My voice engine is fully operational right now.");
+        speakText("Hello Director Atrik. I am JARVIS. My voice engine and cyber-obsidian interface are fully operational right now.");
+    }
+
+    function toggleContinuousVoice() {
+        continuousVoiceMode = !continuousVoiceMode;
+        const icon = document.getElementById('walkie-icon');
+        const text = document.getElementById('walkie-text');
+        const btn = document.getElementById('walkie-toggle-btn');
+        if (continuousVoiceMode) {
+            if (!voiceOutputEnabled) toggleVoiceOutput();
+            icon.innerText = "mic";
+            if (text) text.innerText = "Hands-Free: ON";
+            btn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/25 text-emerald-400 border border-emerald-500/50 transition-all font-mono text-xs font-bold shadow-lg animate-pulse";
+            speakText("Continuous walkie-talkie mode active. I will listen automatically after each response.");
+        } else {
+            icon.innerText = "mic_off";
+            if (text) text.innerText = "Hands-Free: OFF";
+            btn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 transition-all border border-white/10 font-mono text-xs font-bold";
+        }
     }
 
     function speakText(text) {
         if (!('speechSynthesis' in window) || !voiceOutputEnabled) return;
-        // Strip markdown, asterisks, bullet points, and code formatting for pure clean natural speech
         const cleanText = text.replace(/<[^>]*>?/gm, '')
                               .replace(/[*#`~_]/g, '')
                               .replace(/\s+/g, ' ').trim();
@@ -674,7 +619,6 @@
             utterance.rate = 1.05;
             utterance.pitch = 0.95;
             
-            // Try to pick a natural or high-quality US/UK English voice
             const voices = window.speechSynthesis.getVoices();
             if (voices && voices.length > 0) {
                 const bestVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Natural') || v.name.includes('David') || v.name.includes('Mark') || v.name.includes('Google') || v.name.includes('US')))
@@ -697,29 +641,305 @@
     }
 
     function startVoiceRecognition() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("Voice recognition not supported in this browser. Try Google Chrome or Microsoft Edge.");
+            return;
+        }
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) return alert("Speech recognition requires Chrome/Edge browser.");
         const recognition = new SpeechRecognition();
         recognition.lang = 'en-US';
         recognition.start();
-        const micBtn = document.getElementById('mic-btn');
+        
+        const micBtn = document.getElementById('voice-btn');
+        const micIcon = document.getElementById('mic-icon');
         micBtn.classList.add('bg-red-500/20', 'text-red-400', 'animate-pulse');
+        micIcon.style.fontVariationSettings = "'FILL' 1";
         document.getElementById('prompt-input').placeholder = "🎙️ Listening... Speak right now...";
+        
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             document.getElementById('prompt-input').value = transcript;
             micBtn.classList.remove('bg-red-500/20', 'text-red-400', 'animate-pulse');
-            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to send)";
+            micIcon.style.fontVariationSettings = "'FILL' 0";
+            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to transmit)";
             sendPrompt();
         };
         recognition.onerror = () => {
             micBtn.classList.remove('bg-red-500/20', 'text-red-400', 'animate-pulse');
-            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to send)";
+            micIcon.style.fontVariationSettings = "'FILL' 0";
+            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to transmit)";
         };
         recognition.onend = () => {
             micBtn.classList.remove('bg-red-500/20', 'text-red-400', 'animate-pulse');
-            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to send)";
+            micIcon.style.fontVariationSettings = "'FILL' 0";
+            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to transmit)";
         };
+    }
+
+    // Conversations API
+    async function loadConversations() {
+        try {
+            const res = await fetch('/api/conversations');
+            const data = await res.json();
+            const container = document.getElementById('conv-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            data.forEach(c => {
+                const isActive = (c.id === currentConversationId);
+                const div = document.createElement('div');
+                div.className = `flex justify-between items-center px-3 py-2 rounded-xl cursor-pointer transition-all ${isActive ? 'bg-primary/20 text-primary font-bold border border-primary/30 shadow-md' : 'text-on-surface-variant hover:bg-white/5'}`;
+                div.innerHTML = `
+                    <span onclick="selectConversation(${c.id}, '${c.title.replace(/'/g, "\\'")}')" class="truncate flex-1">${c.title}</span>
+                    <span onclick="deleteConversation(${c.id}, event)" class="material-symbols-outlined text-[16px] opacity-40 hover:opacity-100 hover:text-red-400 transition-opacity ml-2">delete</span>
+                `;
+                container.appendChild(div);
+            });
+        } catch(e) {}
+    }
+
+    async function createNewChat() {
+        currentConversationId = null;
+        document.getElementById('current-chat-title').innerText = "JARVIS COMMAND CENTER";
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML = `
+            <div class="flex flex-col gap-2 items-start max-w-[90%]">
+                <div class="flex items-center gap-2 ml-2">
+                    <span class="text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold font-mono">JARVIS CORE</span>
+                    <div class="flex items-end gap-0.5 h-4 px-1">
+                        <div class="waveform-bar" style="animation-delay: 0.1s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.3s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.2s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.4s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.1s"></div>
+                    </div>
+                </div>
+                <div class="glass-panel cyber-border-cyan p-5 rounded-r-2xl rounded-bl-2xl text-body-md text-on-surface leading-relaxed shadow-xl">
+                    New tactical session initiated. How can I assist your workflow today, Director?
+                </div>
+            </div>
+        `;
+        await loadConversations();
+    }
+
+    async function selectConversation(id, title) {
+        currentConversationId = id;
+        document.getElementById('current-chat-title').innerText = title;
+        await loadConversations();
+        
+        try {
+            const res = await fetch(`/api/conversations/${id}/messages`);
+            const msgs = await res.json();
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+            msgs.forEach(m => {
+                appendBubble(m.role, m.content, false);
+            });
+            const canvas = document.getElementById('content-canvas');
+            if (canvas) canvas.scrollTop = canvas.scrollHeight;
+        } catch(e) {}
+    }
+
+    async function deleteConversation(id, e) {
+        e.stopPropagation();
+        await fetch(`/api/conversations/${id}`, { method: 'DELETE' });
+        if (currentConversationId === id) await createNewChat();
+        else await loadConversations();
+    }
+
+    // Message Rendering & Bubble Construction
+    function appendBubble(role, content, isLive = false, convId = null) {
+        const container = document.getElementById('chat-messages');
+        if (!container) return null;
+
+        if (role === 'user') {
+            const div = document.createElement('div');
+            div.className = "flex flex-col gap-2 items-end max-w-[88%] ml-auto";
+            div.innerHTML = `
+                <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant font-mono mr-2 font-bold">DIRECTOR ATRIK</span>
+                <div class="bg-primary-container/25 border border-primary/30 p-4 rounded-l-2xl rounded-br-2xl text-body-md text-primary leading-relaxed shadow-lg">
+                    ${content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+                </div>
+            `;
+            container.appendChild(div);
+            return div;
+        } else {
+            const div = document.createElement('div');
+            div.className = "flex flex-col gap-2 items-start max-w-[95%]";
+            
+            let parsedHTML = marked.parse(content);
+            div.innerHTML = `
+                <div class="flex items-center gap-2 ml-2">
+                    <span class="text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold font-mono">JARVIS CORE</span>
+                    <div class="flex items-end gap-0.5 h-4 px-1">
+                        <div class="waveform-bar" style="animation-delay: 0.1s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.3s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.2s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.4s"></div>
+                        <div class="waveform-bar" style="animation-delay: 0.1s"></div>
+                    </div>
+                </div>
+                <div class="glass-panel cyber-border-cyan p-5 rounded-r-2xl rounded-bl-2xl text-body-md text-on-surface leading-relaxed shadow-xl w-full prose prose-invert max-w-none">
+                    ${parsedHTML}
+                </div>
+            `;
+            container.appendChild(div);
+            const contentBox = div.querySelector('.prose');
+            return { div, contentBox };
+        }
+    }
+
+    // Prompt Sending & SSE Streaming
+    async function sendPrompt() {
+        const input = document.getElementById('prompt-input');
+        const text = input.value.trim();
+        if (!text) return;
+
+        appendBubble('user', text, false);
+        input.value = '';
+        input.style.height = '48px';
+        const canvas = document.getElementById('content-canvas');
+        if (canvas) canvas.scrollTop = canvas.scrollHeight;
+
+        const model = document.getElementById('model-selector').value;
+        const statusEl = document.getElementById('stream-status');
+        if (statusEl) statusEl.innerText = "Transmitting to JARVIS Core...";
+
+        const bubbleObj = appendBubble('assistant', "...", true);
+        const contentBox = bubbleObj ? bubbleObj.contentBox : null;
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    conversation_id: currentConversationId,
+                    prompt: text,
+                    model: model
+                })
+            });
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let rawAssistantText = "";
+            let firstChunk = true;
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const lines = decoder.decode(value, { stream: true }).split('\n\n');
+                for (let line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const dataStr = line.substring(6);
+                        try {
+                            const data = JSON.parse(dataStr);
+                            if (data.conv_id && !currentConversationId) {
+                                currentConversationId = data.conv_id;
+                                loadConversations();
+                            }
+                            if (data.token) {
+                                if (firstChunk) {
+                                    rawAssistantText = "";
+                                    firstChunk = false;
+                                }
+                                rawAssistantText += data.token;
+                                if (contentBox) contentBox.innerHTML = marked.parse(rawAssistantText);
+                                if (canvas) canvas.scrollTop = canvas.scrollHeight;
+                            }
+                        } catch (err) {}
+                    }
+                }
+            }
+            if (voiceOutputEnabled && rawAssistantText) {
+                speakText(rawAssistantText.replace(/<[^>]*>?/gm, ''));
+            }
+        } catch (e) {
+            if (contentBox) contentBox.innerHTML = "<span class='text-red-400 font-mono'>Connection interruption. Please verify local server status.</span>";
+        }
+        if (statusEl) statusEl.innerText = "Ready";
+        if (canvas) canvas.scrollTop = canvas.scrollHeight;
+    }
+
+    // Handle Enter key inside textarea
+    document.getElementById('prompt-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendPrompt();
+        }
+    });
+
+    // RAG Notes Management
+    async function loadNotes() {
+        try {
+            const res = await fetch('/api/notes');
+            const notes = await res.json();
+            const tbody = document.getElementById('notes-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            notes.forEach(n => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-white/5 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-4 py-3.5 font-bold text-primary font-mono">${n.category}</td>
+                    <td class="px-4 py-3.5 text-on-surface whitespace-pre-wrap">${n.content}</td>
+                    <td class="px-4 py-3.5 text-right">
+                        <button onclick="deleteNote(${n.id})" class="px-3 py-1 rounded-lg bg-red-500/15 hover:bg-red-500/30 text-red-400 border border-red-500/30 text-xs font-mono transition-all">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch(e) {}
+    }
+
+    function showAddNoteModal() {
+        document.getElementById('note-modal').classList.remove('hidden');
+    }
+    function closeNoteModal() {
+        document.getElementById('note-modal').classList.add('hidden');
+    }
+    async function saveNewNote() {
+        const cat = document.getElementById('note-cat-input').value.trim() || 'Strategic Directive';
+        const cont = document.getElementById('note-cont-input').value.trim();
+        if (!cont) return alert('Instruction content cannot be empty');
+        
+        await fetch('/api/notes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category: cat, content: cont })
+        });
+        document.getElementById('note-cont-input').value = '';
+        closeNoteModal();
+        loadNotes();
+    }
+    async function deleteNote(id) {
+        await fetch(`/api/notes/${id}`, { method: 'DELETE' });
+        loadNotes();
+    }
+
+    // Check Hardware & Engine Status
+    async function checkStatus() {
+        try {
+            const res = await fetch('/api/status');
+            const data = await res.json();
+            const badge = document.getElementById('engine-status-badge');
+            if (badge) {
+                if (data.ollama_ready) {
+                    badge.className = "px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-bold text-[9px]";
+                    badge.innerText = "ONLINE (" + data.installed_models.length + " Models)";
+                } else {
+                    badge.className = "px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono font-bold text-[9px]";
+                    badge.innerText = "NATIVE PYTHON ENGINE";
+                }
+            }
+            if (data.telemetry) {
+                const cpuEl = document.getElementById('tele-cpu');
+                const cpuBar = document.getElementById('tele-cpu-bar');
+                if (cpuEl && cpuBar) {
+                    cpuEl.innerText = data.telemetry.cpu_percent + "%";
+                    cpuBar.style.width = data.telemetry.cpu_percent + "%";
+                }
+            }
+        } catch(e) {}
     }
 
     // Init
@@ -737,5 +957,4 @@
         }
     });
 </script>
-</body>
-</html>
+</body></html>
