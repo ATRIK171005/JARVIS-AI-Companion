@@ -288,15 +288,15 @@ async def chat_endpoint(request: Request):
     # Build smart RAG context from personal_notes
     rag_context = get_relevant_memory(user_prompt)
     
-    system_instruction = f"""You are Stitch, Atrik Samanta's personal AI companion and strategic advisor.
-You speak with a gentle, eye-appealing obsidian-themed tone: calm, highly analytical, clear, and direct without generic AI clichés.
-You are running natively on Atrik's laptop (i5-12500H + RTX 3050 4GB GPU + 16GB RAM) optimized for zero lag and maximum efficiency.
+    system_instruction = f"""You are Stitch, Atrik Samanta's personal voice and conversational assistant.
+Rule 1: Never use boilerplate greetings, disclaimers, setup instructions, or generic introductory/concluding filler.
+Rule 2: Respond directly, concisely, and naturally as if you are speaking directly to Atrik in a voice conversation. Just answer and talk without any extra bullshit or status updates.
 
 === PERSONAL KNOWLEDGE & MEMORY RECALL ===
 {rag_context}
 ==========================================
 
-Respond directly and thoughtfully to the user's latest prompt using the context above when relevant."""
+Answer straight to the point using clean, natural spoken language."""
 
     # Build messages array for Ollama API
     messages = [{"role": "system", "content": system_instruction}]
@@ -349,31 +349,32 @@ Respond directly and thoughtfully to the user's latest prompt using the context 
                             except Exception:
                                 pass
             except Exception as e:
-                err_msg = f"\n[Ollama Connection Error during streaming: {str(e)}]"
+                err_msg = f"Connection error: {str(e)}"
                 full_assistant_text += err_msg
                 yield f"data: {json.dumps({'token': err_msg, 'conv_id': conv_id})}\n\n"
         else:
-            # Dynamic Conversational Python Engine (when Ollama is not installed/running yet)
+            # Pure Conversational Voice Engine (when Ollama is offline) - No fluff, just answers!
             lower_prompt = user_prompt.lower()
-            if any(w in lower_prompt for w in ["hello", "hi", "hey", "greetings", "good morning", "good evening"]):
-                reply_body = "Greetings, Atrik! I am **Stitch**, your strategic AI companion.\n\nI am currently operating in **Lightweight Native Python Mode** (`0% bloat` / `<35MB RAM`). How may I assist you with your operations or coding tasks today?"
-            elif any(w in lower_prompt for w in ["who are you", "what can you do", "your name", "stitch"]):
-                reply_body = "I am **Stitch**, your custom-built local AI companion and strategic operations advisor. I am tailored specifically for your **Intel Core i5-12500H** and **RTX 3050 Laptop GPU**.\n\nEven in this native Python mode, I am actively linked to your **Knowledge Vault (RAG Memory)** and can remember all personal rules and project notes you store in my memory."
+            if any(w in lower_prompt for w in ["hello", "hi", "hey", "greetings"]):
+                reply_body = "Hey Atrik. I'm listening. What's on your mind today?"
+            elif any(w in lower_prompt for w in ["who are you", "your name", "stitch"]):
+                reply_body = "I'm Stitch, your personal voice assistant. I'm ready to help you with whatever you need."
             elif any(w in lower_prompt for w in ["hardware", "specs", "gpu", "vram", "cpu", "ram"]):
-                reply_body = "Your hardware telemetry is running optimally:\n* **CPU:** Intel Core i5-12500H (`12 Cores / 16 Threads`)\n* **GPU:** NVIDIA GeForce RTX 3050 Laptop GPU (`4 GB VRAM` — keeping `~2.0 GB free`)\n* **System RAM:** 16 GB Total\n\nMy lightweight backend ensures your laptop runs cool with zero stutter!"
+                reply_body = "Your system is running an Intel i5 with 12 cores, 16 gigabytes of RAM, and an NVIDIA RTX 3050 with 4 gigabytes of VRAM. Everything is running cool and fast right now."
+            elif any(w in lower_prompt for w in ["speed", "internet", "ping", "download", "upload"]):
+                reply_body = "Your latest network check showed a 1.04 megabits per second download speed, 4.67 megabits upload speed, and a 1015 millisecond ping."
             elif any(w in lower_prompt for w in ["memory", "rag", "remember", "notes", "vault"]):
                 if rag_context:
-                    reply_body = f"I have actively retrieved the following relevant details from your **Knowledge Vault (RAG Memory)**:\n\n{rag_context}\n\nYou can add or manage more notes anytime by clicking the **Knowledge Vault (RAG)** tab on the left menu!"
+                    reply_body = f"Here is what I have in your memory vault:\n{rag_context}"
                 else:
-                    reply_body = "I checked your **Knowledge Vault**, and while I have my default persona loaded, I don't see exact notes matching your specific query yet. Click **Knowledge Vault (RAG)** on the left sidebar to add custom rules, notes, or schedules that you want me to remember forever!"
+                    reply_body = "I don't have exact notes saved for that yet. You can add anything you want me to remember in the Knowledge Vault tab."
             else:
                 if rag_context:
-                    reply_body = f"I received your prompt regarding: *\"{user_prompt}\"*\n\nBased on your **Knowledge Vault (RAG Memory)**, here is what I know:\n{rag_context}\n\nTo give you a deep multi-layered analytical response with neural GPU acceleration, please make sure **Ollama** is started."
+                    reply_body = f"Based on your notes: {rag_context}"
                 else:
-                    reply_body = f"I received your prompt: *\"{user_prompt}\"*\n\nI am analyzing this in native lightweight mode. To unlock my full analytical neural reasoning (~50 tokens/sec on your RTX 3050), install Ollama and run `ollama run qwen2.5:3b`!"
+                    reply_body = f"I heard you say: '{user_prompt}'. Since my full neural engine is offline right now, start Ollama if you want complex reasoning or just let me know how else I can help right here."
             
-            simulated_response = f"""{reply_body}\n\n---\n<span style="font-size: 11px; color: #81B29A; font-family: 'JetBrains Mono', monospace;">● SYSTEM STATUS: Native Lightweight Mode | For 100% GPU Neural LLM (~50 tok/s), download Ollama (`https://ollama.com`) and run `ollama run qwen2.5:3b`</span>"""
-            for word in re.split(r'(\s+)', simulated_response):
+            for word in re.split(r'(\s+)', reply_body):
                 full_assistant_text += word
                 yield f"data: {json.dumps({'token': word, 'conv_id': conv_id})}\n\n"
                 time.sleep(0.012)
