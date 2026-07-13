@@ -15,7 +15,7 @@ import urllib.request
 import urllib.error
 
 # Initialize FastAPI App
-app = FastAPI(title="Stitch AI Companion Suite", version="1.0.0")
+app = FastAPI(title="JARVIS Personal AI Suite", version="1.0.0")
 
 # Allow CORS
 app.add_middleware(
@@ -82,13 +82,17 @@ def init_db():
     cursor.execute("SELECT COUNT(*) FROM personal_notes")
     if cursor.fetchone()[0] == 0:
         defaults = [
-            ("Identity & Persona", "Your name is Stitch. You are Atrik Samanta's personal AI conversational companion and strategic advisor. You speak with a gentle, eye-appealing obsidian-themed tone: calm, highly analytical, clear, and direct without generic AI clichés."),
+            ("Identity & Persona", "Your name is JARVIS. You are Atrik Samanta's personal AI voice companion and strategic advisor. You speak directly and concisely without generic AI clichés or boilerplate."),
             ("Hardware Context", "You are running locally on Atrik's Windows laptop powered by a 12th Gen Intel Core i5-12500H (12 cores/16 threads), 16 GB RAM, and an NVIDIA GeForce RTX 3050 Laptop GPU (4 GB VRAM)."),
             ("Coding & Projects", "Atrik's key project is the AI Logistics Optimizer (built with Python, Streamlit, Google OR-Tools SCIP MILP solver, and XGBoost). When coding, prefer clean Python, vanilla CSS/HTML, or lightweight FastAPI frameworks.")
         ]
         now = datetime.now().isoformat()
         for cat, cont in defaults:
             cursor.execute("INSERT INTO personal_notes (category, content, created_at) VALUES (?, ?, ?)", (cat, cont, now))
+    else:
+        # Update existing default persona if it still says Stitch
+        cursor.execute("UPDATE personal_notes SET content = ? WHERE category = ? AND content LIKE '%Stitch%'", 
+                       ("Your name is JARVIS. You are Atrik Samanta's personal AI voice companion and strategic advisor. You speak directly and concisely without generic AI clichés or boilerplate.", "Identity & Persona"))
             
     conn.commit()
     conn.close()
@@ -288,7 +292,7 @@ async def chat_endpoint(request: Request):
     # Build smart RAG context from personal_notes
     rag_context = get_relevant_memory(user_prompt)
     
-    system_instruction = f"""You are Stitch, Atrik Samanta's personal voice and conversational assistant.
+    system_instruction = f"""You are JARVIS, Atrik Samanta's personal voice and conversational assistant.
 Rule 1: Never use boilerplate greetings, disclaimers, setup instructions, or generic introductory/concluding filler.
 Rule 2: Respond directly, concisely, and naturally as if you are speaking directly to Atrik in a voice conversation. Just answer and talk without any extra bullshit or status updates.
 
@@ -357,8 +361,8 @@ Answer straight to the point using clean, natural spoken language."""
             lower_prompt = user_prompt.lower()
             if any(w in lower_prompt for w in ["hello", "hi", "hey", "greetings"]):
                 reply_body = "Hey Atrik. I'm listening. What's on your mind today?"
-            elif any(w in lower_prompt for w in ["who are you", "your name", "stitch"]):
-                reply_body = "I'm Stitch, your personal voice assistant. I'm ready to help you with whatever you need."
+            elif any(w in lower_prompt for w in ["who are you", "your name", "jarvis"]):
+                reply_body = "I'm JARVIS, your personal voice assistant. I'm ready to help you with whatever you need."
             elif any(w in lower_prompt for w in ["hardware", "specs", "gpu", "vram", "cpu", "ram"]):
                 reply_body = "Your system is running an Intel i5 with 12 cores, 16 gigabytes of RAM, and an NVIDIA RTX 3050 with 4 gigabytes of VRAM. Everything is running cool and fast right now."
             elif any(w in lower_prompt for w in ["speed", "internet", "ping", "download", "upload"]):
@@ -403,7 +407,7 @@ def index():
 
 if __name__ == "__main__":
     print("\n" + "="*70)
-    print("  [*] STITCH AI COMPANION SUITE -- ULTRA-LIGHTWEIGHT LOCAL SERVER")
+    print("  [*] JARVIS PERSONAL AI SUITE -- ULTRA-LIGHTWEIGHT LOCAL SERVER")
     print("  [*] CPU: Intel Core i5-12500H | GPU: RTX 3050 4GB | RAM: 16GB")
     print("  [*] URL: http://localhost:8555")
     print("="*70 + "\n")

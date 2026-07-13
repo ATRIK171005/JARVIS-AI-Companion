@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Stitch AI Companion — Personal Operations Studio</title>
+    <title>JARVIS AI Companion — Personal Operations Studio</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -89,7 +89,7 @@
             <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
         </div>
         <div>
-            <h1 class="font-bold text-lg text-white tracking-tight leading-none">Stitch Companion</h1>
+            <h1 class="font-bold text-lg text-white tracking-tight leading-none">JARVIS Companion</h1>
             <p class="font-mono text-[10px] text-cyan-400/80 mt-1">OBSIDIAN SUITE V1.0</p>
         </div>
     </div>
@@ -98,7 +98,7 @@
     <div class="p-3 space-y-1 border-b border-white/5">
         <button onclick="switchView('studio')" id="tab-btn-studio" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20 transition-all">
             <span class="material-symbols-outlined text-[18px]">forum</span>
-            Stitch Studio (Chat)
+            JARVIS Studio (Chat)
         </button>
         <button onclick="switchView('vault')" id="tab-btn-vault" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg font-mono text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
             <span class="material-symbols-outlined text-[18px]">memory</span>
@@ -147,7 +147,7 @@
             <div class="flex items-center gap-3">
                 <span class="material-symbols-outlined text-cyan-400">terminal</span>
                 <div>
-                    <h2 id="current-chat-title" class="font-bold text-sm text-white">Stitch Strategic Companion</h2>
+                    <h2 id="current-chat-title" class="font-bold text-sm text-white">JARVIS Strategic Companion</h2>
                     <p class="font-mono text-[11px] text-slate-400">Optimized for Intel i5-12500H & RTX 3050 Laptop</p>
                 </div>
             </div>
@@ -183,7 +183,7 @@
                         <span class="material-symbols-outlined text-[28px]">auto_awesome</span>
                     </div>
                     <div class="space-y-2">
-                        <h3 class="font-bold text-lg text-white">Greetings, Atrik. I am Stitch.</h3>
+                        <h3 class="font-bold text-lg text-white">Greetings, Atrik. I am JARVIS.</h3>
                         <p class="text-sm text-slate-300 leading-relaxed">
                             I am your custom-engineered personal AI companion running **100% locally** on your device. I have been fine-tuned with a gentle obsidian aesthetic and calibrated to consume minimal system resources (`<2 GB VRAM` on your RTX 3050).
                         </p>
@@ -213,7 +213,7 @@
                 <button onclick="startVoiceRecognition()" id="mic-btn" class="p-2 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-slate-400 hover:text-cyan-400 transition-all shrink-0" title="Click to speak">
                     <span class="material-symbols-outlined text-[22px]">mic</span>
                 </button>
-                <textarea id="prompt-input" rows="1" class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-white placeholder:text-slate-500 resize-none max-h-32 py-1.5 focus:outline-none" placeholder="Message Stitch... (Press Enter to send, Shift+Enter for newline)"></textarea>
+                <textarea id="prompt-input" rows="1" class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-white placeholder:text-slate-500 resize-none max-h-32 py-1.5 focus:outline-none" placeholder="Message JARVIS... (Press Enter to send, Shift+Enter for newline)"></textarea>
                 <button onclick="sendPrompt()" id="send-btn" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shrink-0 shadow-lg shadow-cyan-500/20">
                     <span class="text-xs font-mono">SEND</span>
                     <span class="material-symbols-outlined text-[18px]">send</span>
@@ -342,7 +342,7 @@
         </div>
         <div class="space-y-2">
             <label class="font-mono text-xs text-slate-400">Exact Memory / Instruction</label>
-            <textarea id="note-cont-input" rows="4" class="w-full bg-[#0d1c2d] border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-cyan-400 font-mono" placeholder="Enter the exact details or rule you want Stitch to always remember..."></textarea>
+            <textarea id="note-cont-input" rows="4" class="w-full bg-[#0d1c2d] border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-cyan-400 font-mono" placeholder="Enter the exact details or rule you want JARVIS to always remember..."></textarea>
         </div>
         <div class="flex justify-end gap-3 pt-2">
             <button onclick="closeNoteModal()" class="px-4 py-2 rounded-lg font-mono text-xs text-slate-400 hover:text-white transition-all">Cancel</button>
@@ -682,16 +682,16 @@
             const transcript = event.results[0][0].transcript;
             document.getElementById('prompt-input').value = transcript;
             micBtn.classList.remove('bg-red-500/20', 'text-red-400', 'animate-pulse');
-            document.getElementById('prompt-input').placeholder = "Message Stitch... (Press Enter to send)";
+            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to send)";
             sendPrompt();
         };
         recognition.onerror = () => {
             micBtn.classList.remove('bg-red-500/20', 'text-red-400', 'animate-pulse');
-            document.getElementById('prompt-input').placeholder = "Message Stitch... (Press Enter to send)";
+            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to send)";
         };
         recognition.onend = () => {
             micBtn.classList.remove('bg-red-500/20', 'text-red-400', 'animate-pulse');
-            document.getElementById('prompt-input').placeholder = "Message Stitch... (Press Enter to send)";
+            document.getElementById('prompt-input').placeholder = "Message JARVIS... (Press Enter to send)";
         };
     }
 
